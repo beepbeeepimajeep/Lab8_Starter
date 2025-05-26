@@ -54,6 +54,19 @@ function initializeServiceWorker() {
   // B5. TODO - In the event that the service worker registration fails, console
   //            log that it has failed.
   // STEPS B6 ONWARDS WILL BE IN /sw.js
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js")
+            .then((registration) => {
+                console.log("Registration successful");
+            })
+            .catch((error) => {
+                console.log(`Registration failed: ${error}`);
+            });
+    });
+  } else {
+    console.log("ServiceWorker not supported by browser");
+  }
 }
 
 /**
@@ -136,8 +149,6 @@ async function getRecipes() {
     resolve(fetchedRecipes);
   });
 }
-
- s
 
   // A10. COMPLETED - Log any errors from catch using console.error
   // A11. COMPLETED - Pass any errors to the Promise's reject() function
